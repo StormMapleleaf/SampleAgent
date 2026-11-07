@@ -1,0 +1,14 @@
+#!/bin/sh
+# Post-install: report a missing sandbox runner and refresh the desktop database.
+set -e
+
+if ! command -v bwrap >/dev/null 2>&1; then
+  echo "dsh: bubblewrap (bwrap) is not on PATH; command sandboxing falls back to Landlock," >&2
+  echo "dsh: which needs Linux 5.13 or newer. Install bubblewrap for full enforcement." >&2
+fi
+
+if command -v update-desktop-database >/dev/null 2>&1; then
+  update-desktop-database -q /usr/share/applications || true
+fi
+
+exit 0

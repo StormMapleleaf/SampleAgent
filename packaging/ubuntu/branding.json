@@ -1,0 +1,11 @@
+{
+  "packageName": "dsh",
+  "binaryName": "dsh",
+  "appName": "DSH",
+  "maintainer": "DSH distribution maintainers <dsh@example.com>",
+  "homepage": "https://github.com/deepseek-ai/deepseek-harness",
+  "description": "DSH agent runtime and Web UI (community distribution)",
+  "installDir": "/opt/dsh",
+  "defaultPort": 3080,
+  "icon": null
+}

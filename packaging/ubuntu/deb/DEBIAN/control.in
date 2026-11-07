@@ -1,0 +1,14 @@
+Package: {{PACKAGE}}
+Version: {{VERSION}}
+Architecture: {{ARCH}}
+Maintainer: {{MAINTAINER}}
+Installed-Size: {{INSTALLED_SIZE}}
+Depends: libc6 (>= 2.28), libstdc++6, ca-certificates, bubblewrap
+Recommends: xdg-utils
+Section: devel
+Priority: optional
+Homepage: {{HOMEPAGE}}
+Description: {{DESCRIPTION}}
+ A self-contained build of the DSH coding agent and its browser UI.
+ It bundles Node.js, pnpm, ripgrep, and the plugin closure, so no system
+ Node.js installation and no native build toolchain are required.

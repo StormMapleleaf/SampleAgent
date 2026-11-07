@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name={{APP_NAME}}
+Comment=Open the {{APP_NAME}} Web UI
+Exec=/usr/bin/{{BINARY}} web
+Icon={{PACKAGE}}
+Terminal=false
+Categories=Development;
+StartupNotify=false

@@ -13,6 +13,9 @@ packages:
   # Deploy root of the single-exe build: a pure dependency manifest whose
   # closure is what the exe bundles and what the Python runtime distributes.
   - python/sdk-runtime
+  # Deploy root of the self-contained Linux distribution: the closure the
+  # Ubuntu .deb, tarball, and install.sh carry.
+  - packaging/ubuntu
 
 overrides:
   'extract-zip>yauzl': '3.4.0'

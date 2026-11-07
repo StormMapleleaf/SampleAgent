@@ -1,0 +1,8 @@
+#!/bin/sh
+# Pre-remove: the package owns no per-user state, and stopping every user's
+# service is not this script's decision. Harness home directories stay in place.
+set -e
+
+echo "dsh: user profiles and sessions under ~/.dsh are kept; remove them manually if unwanted." >&2
+
+exit 0

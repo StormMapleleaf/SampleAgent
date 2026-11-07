@@ -1,0 +1,16 @@
+[Unit]
+Description={{APP_NAME}} Web UI
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+Environment=DSH_HOME=%h/.dsh
+ExecStart=/usr/bin/{{BINARY}} web --no-open --port {{PORT}}
+Restart=on-failure
+RestartSec=2
+# Do not add NoNewPrivileges or PrivateUsers here: the bundled sandbox probes
+# bubblewrap and Landlock, and both need the host's ordinary user-namespace rules.
+
+[Install]
+WantedBy=default.target
