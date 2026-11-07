@@ -1,6 +1,6 @@
 {
   "name": "@deepseek-ai/dsh-brand",
-  "description": "Stateless branded primitive types for the DeepSeek Harness",
+  "description": "Stateless branded primitive types for the SampleAgent",
   "version": "0.2.2-rc.1",
   "publishConfig": {
     "access": "public"

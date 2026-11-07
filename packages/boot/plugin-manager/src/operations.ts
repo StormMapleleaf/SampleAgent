@@ -101,7 +101,7 @@ async function reconcile(before: ProfileManifest, dir: string, anchor: string, o
     if (beforeDeps.has(name)) continue
     const metadata = bundleManifest(name, dir, anchor)
     if (metadata?.dsh?.bundle === undefined) {
-      options.onOutput?.(`dsh: warning: ${name} declares no dsh.bundle — installed as a plain dependency, not a profile layer\n`, 'stderr')
+      options.onOutput?.(`sampleagent: warning: ${name} declares no dsh.bundle — installed as a plain dependency, not a profile layer\n`, 'stderr')
       continue
     }
     try { assertBundlePlatform(metadata.dsh.bundle.platforms, process.platform) } catch (error) {
@@ -237,11 +237,11 @@ async function activeRecordedRun(dir: string): Promise<string | undefined> {
     void error
   }
   if (tree === undefined) {
-    return `dsh: ${path} does not name a package run; delete it once no earlier package operation is still running in this profile\n`
+    return `sampleagent: ${path} does not name a package run; delete it once no earlier package operation is still running in this profile\n`
   }
   await awaitTreeGone(tree)
   if (treeAlive(tree)) {
-    return `dsh: process ${String(tree.pid)}, started by an earlier package operation whose own process ended, is still running in this profile; `
+    return `sampleagent: process ${String(tree.pid)}, started by an earlier package operation whose own process ended, is still running in this profile; `
       + `wait for it or stop it, then retry. If process ${String(tree.pid)} is not that package run, delete ${path}.\n`
   }
   await rm(path, { force: true })
@@ -334,7 +334,7 @@ export async function runProfilePnpm(
   /** Packages a compatibility check refused; callers render them for their own surface. */
   const incompatible: IncompatiblePlugin[] = []
   const rejected = async (warnings: readonly string[], restoration: string): Promise<PackageResult> => {
-    const diagnostic = `\ndsh: installation rejected: ${warnings.join('\n')}\ndsh: ${restoration}.\n`
+    const diagnostic = `\nsampleagent: installation rejected: ${warnings.join('\n')}\nsampleagent: ${restoration}.\n`
     await log.write(diagnostic)
     options.onOutput?.(diagnostic, 'stderr')
     append(Buffer.from(diagnostic))
@@ -449,7 +449,7 @@ export async function runProfilePnpm(
       cut = true
       child.stdout?.destroy()
       child.stderr?.destroy()
-      const notice = 'dsh: pnpm output was cut short after its process exited\n'
+      const notice = 'sampleagent: pnpm output was cut short after its process exited\n'
       await log.write(notice)
       // A failure from before the cut is the run's own and replaces the notice a
       // caller would otherwise read; a rejection the cut itself causes is its end.
@@ -462,7 +462,7 @@ export async function runProfilePnpm(
     const result = completion.value
     exitCode = result.exitCode ?? (result.code === 'ENOENT' ? 127 : 1)
     if (control.stalled) {
-      const notice = `dsh: pnpm printed nothing for ${String(options.idleTimeoutMs)}ms and was terminated\n`
+      const notice = `sampleagent: pnpm printed nothing for ${String(options.idleTimeoutMs)}ms and was terminated\n`
       await log.write(notice)
       options.onOutput?.(notice, 'stderr')
       append(Buffer.from(notice))
@@ -528,7 +528,7 @@ export async function runProfilePnpm(
         const restoration = repaired.exitCode === 0
           ? 'restored package.json, pnpm-lock.yaml, and node_modules'
           : "restored package.json and pnpm-lock.yaml, but node_modules could not be reinstalled; run 'dsh plugin install'"
-        const diagnostic = `\ndsh: installation rejected: ${warnings.join('\n')}\ndsh: ${restoration}.\n`
+        const diagnostic = `\nsampleagent: installation rejected: ${warnings.join('\n')}\nsampleagent: ${restoration}.\n`
         await log.write(diagnostic)
         options.onOutput?.(diagnostic, 'stderr')
         append(Buffer.from(diagnostic))
@@ -571,7 +571,7 @@ export async function runPluginCommand(
     if (!existsSync(join(dir, 'package.json'))) {
       const template = PROFILE_TEMPLATES[context.profile]
       initProfile(dir, template?.bundles ?? DEFAULT_PROFILE_BUNDLES)
-      options.onOutput?.(`dsh: initialized profile ${context.profile} at ${dir}\n`, 'stderr')
+      options.onOutput?.(`sampleagent: initialized profile ${context.profile} at ${dir}\n`, 'stderr')
     }
     return runProfilePnpm(context, args, options)
   }, options.lockWaitMs === undefined ? undefined : { waitMs: options.lockWaitMs })

@@ -75,7 +75,7 @@ function waitForReadyLine(child: ChildProcess): Promise<string> {
     const timer = setTimeout(() => { reject(new Error(`dsh web not ready in 90s; output:\n${out}`)) }, 90_000)
     const onData = (chunk: Buffer): void => {
       out += chunk.toString()
-      const match = /dsh web: (http:\/\/[^\s]+)/.exec(out)
+      const match = /sampleagent web: (http:\/\/[^\s]+)/.exec(out)
       if (match?.[1] !== undefined) {
         clearTimeout(timer)
         resolveReady(match[1])
@@ -481,7 +481,7 @@ describe('dsh web keyless CLI smoke', () => {
       expect(captured.messages?.filter(message => message.role === 'user')
         .flatMap(message => message.content ?? [])
         .some(block => block.type === 'text'
-          && block.text?.includes(`Current DeepSeek Harness Web GUI URL: ${JSON.stringify(new URL(baseUrl).origin)}.`)))
+          && block.text?.includes(`Current SampleAgent Web GUI URL: ${JSON.stringify(new URL(baseUrl).origin)}.`)))
         .toBe(true)
       expect(workspaceMessage).toMatchInlineSnapshot(`
         {

@@ -1,9 +1,10 @@
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, readlinkSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { installedSizeKib, renderTemplate, type TemplateValues } from './build-deb.ts'
+import { installedSizeKib, renderTemplate, stageDeb, type TemplateValues } from './build-deb.ts'
+import { LINUX_TARGETS } from './build-runtime.ts'
 
 const fixtures: string[] = []
 
@@ -18,7 +19,7 @@ afterEach(() => {
 })
 
 const VALUES: TemplateValues = {
-  PACKAGE: 'dsh',
+  PACKAGE: 'sampleagent',
   VERSION: '0.2.2~rc.1-1',
   ARCH: 'amd64',
   MAINTAINER: 'Maintainer <dsh@example.com>',
@@ -26,7 +27,7 @@ const VALUES: TemplateValues = {
   HOMEPAGE: 'https://example.com/dsh',
   DESCRIPTION: 'DSH runtime',
   APP_NAME: 'DSH',
-  BINARY: 'dsh',
+  BINARY: 'sampleagent',
   PORT: '3080',
 }
 
@@ -48,7 +49,7 @@ describe('installedSizeKib', () => {
   it('rounds the payload up to whole KiB', async () => {
     const root = fixture()
     mkdirSync(join(root, 'bin'))
-    writeFileSync(join(root, 'bin', 'dsh'), Buffer.alloc(2048))
+    writeFileSync(join(root, 'bin', 'sampleagent'), Buffer.alloc(2048))
     expect(await installedSizeKib(root)).toBe(2)
 
     writeFileSync(join(root, 'small'), Buffer.alloc(1))
@@ -85,7 +86,22 @@ describe('shipped deb templates', () => {
 
   it('starts the Web UI without opening a browser', () => {
     const unit = renderTemplate(readFileSync(resolve(import.meta.dirname, '../..', templates[1]!), 'utf8'), { ...VALUES })
-    expect(unit).toContain('ExecStart=/usr/bin/dsh web --no-open --port 3080')
+    expect(unit).toContain('ExecStart=/usr/bin/sampleagent web --no-open --port 3080')
     expect(unit).toContain('Environment=DSH_HOME=%h/.dsh')
+  })
+})
+
+describe('stageDeb', () => {
+  it('installs the runtime under the branded prefix and links both commands', async () => {
+    const prefix = fixture()
+    const out = fixture()
+    mkdirSync(join(prefix, 'bin'), { recursive: true })
+    writeFileSync(join(prefix, 'VERSION'), '0.2.2\n')
+    writeFileSync(join(prefix, 'bin', 'sampleagent'), '#!/bin/sh\n')
+    const staged = await stageDeb({ prefix, out, target: LINUX_TARGETS['linux-x64']! })
+    expect(existsSync(join(staged.root, 'opt', 'sampleagent', 'bin', 'sampleagent'))).toBe(true)
+    expect(existsSync(join(staged.root, 'opt', 'dsh'))).toBe(false)
+    expect(readlinkSync(join(staged.root, 'usr', 'bin', 'sampleagent'))).toBe('/opt/sampleagent/bin/sampleagent')
+    expect(readlinkSync(join(staged.root, 'usr', 'bin', 'dsh'))).toBe('/opt/sampleagent/bin/sampleagent')
   })
 })

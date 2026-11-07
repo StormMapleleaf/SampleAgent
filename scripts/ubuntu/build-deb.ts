@@ -152,9 +152,11 @@ export async function stageDeb(options: {
   await rm(root, { recursive: true, force: true })
   await mkdir(root, { recursive: true })
 
-  await cp(options.prefix, join(root, 'opt', 'dsh'), { recursive: true, dereference: true })
+  await cp(options.prefix, join(root, 'opt', branding.packageName), { recursive: true, dereference: true })
   await mkdir(join(root, 'usr', 'bin'), { recursive: true })
-  await run('ln', ['-s', join(branding.installDir, 'bin', branding.binaryName), join(root, 'usr', 'bin', branding.binaryName)], root)
+  for (const name of [branding.binaryName, branding.aliasName]) {
+    await run('ln', ['-s', join(branding.installDir, 'bin', branding.binaryName), join(root, 'usr', 'bin', name)], root)
+  }
   if (options.icon !== undefined) {
     const icon = join(root, 'usr', 'share', 'icons', 'hicolor', '256x256', 'apps', `${branding.packageName}.png`)
     await mkdir(dirname(icon), { recursive: true })
@@ -208,7 +210,7 @@ async function main(): Promise<void> {
     'stage-only': { type: 'boolean', default: false },
   } })
   const out = resolve(values.out ?? DEFAULT_OUT)
-  const prefix = resolve(values.runtime ?? join(out, 'dsh'))
+  const prefix = resolve(values.runtime ?? join(out, branding.packageName))
   if (!existsSync(join(prefix, 'VERSION'))) {
     throw new Error(`linux-deb: ${prefix} is not an assembled runtime; run scripts/ubuntu/build-runtime.ts first.`)
   }

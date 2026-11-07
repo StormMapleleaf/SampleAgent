@@ -11,7 +11,7 @@ const repoRoot = fileURLToPath(new URL('../../../', import.meta.url))
 const builtBin = join(repoRoot, 'apps/cli/lib/bin.js')
 const frontendIndex = join(repoRoot, 'apps/web/dist/index.html')
 const openerHook = new URL('./fixtures/web-browser-open/register.mjs', import.meta.url).href
-const openingMessage = 'dsh web: opening the default browser; pass --no-open to disable'
+const openingMessage = 'sampleagent web: opening the default browser; pass --no-open to disable'
 const tempRoots: string[] = []
 const builtArtifactsExist = existsSync(builtBin) && existsSync(frontendIndex)
 
@@ -63,7 +63,7 @@ describe.skipIf(!builtArtifactsExist)('dsh web browser-open assembled snapshot',
       killSignal: 'SIGKILL',
       reject: false,
     })
-    const readyUrl = /dsh web: (http:\/\/[^\s]+)/u.exec(result.stdout)?.[1]
+    const readyUrl = /sampleagent web: (http:\/\/[^\s]+)/u.exec(result.stdout)?.[1]
     const openLine = result.stdout.split('\n').find(line => line.startsWith('dsh browser-open: '))
     const opening = result.stdout.includes(openingMessage)
     if (readyUrl === undefined || openLine === undefined || !opening) {
@@ -123,7 +123,7 @@ describe.skipIf(!builtArtifactsExist)('dsh web browser-open assembled snapshot',
       killSignal: 'SIGKILL',
       reject: false,
     })
-    const readyUrl = /dsh web: (http:\/\/[^\s]+)/u.exec(result.stdout)?.[1]
+    const readyUrl = /sampleagent web: (http:\/\/[^\s]+)/u.exec(result.stdout)?.[1]
     const diagnostic = result.stderr.split(/\r?\n/u)
       .find(line => line.startsWith('web-app: could not open the default browser because '))
 
@@ -171,7 +171,7 @@ describe.skipIf(!builtArtifactsExist)('dsh web browser-open assembled snapshot',
       killSignal: 'SIGKILL',
       reject: false,
     })
-    const readyUrl = /dsh web: (http:\/\/[^\s]+)/u.exec(result.stdout)?.[1]
+    const readyUrl = /sampleagent web: (http:\/\/[^\s]+)/u.exec(result.stdout)?.[1]
 
     expect({
       exitCode: result.exitCode,
@@ -218,18 +218,18 @@ describe.skipIf(!builtArtifactsExist)('dsh web browser-open assembled snapshot',
     })
 
     const diagnostic = result.stderr.split(/\r?\n/u)
-      .find(line => line.startsWith('Error: dsh: '))
-      ?.replace(/^Error: dsh: .*[/\\]\.env/u, 'dsh: {{root}}/.env')
+      .find(line => line.startsWith('Error: sampleagent: '))
+      ?.replace(/^Error: dsh: .*[/\\]\.env/u, 'sampleagent: {{root}}/.env')
 
     expect({
       diagnostic,
       exitCode: result.exitCode,
       opening: result.stdout.includes(openingMessage),
       opened: result.stdout.includes('dsh browser-open: '),
-      ready: result.stdout.includes('dsh web: '),
+      ready: result.stdout.includes('sampleagent web: '),
     }).toMatchInlineSnapshot(`
       {
-        "diagnostic": "dsh: {{root}}/.env sets "BROWSER", which only the launching environment may set (it decides how this process starts, where its code and instructions load from, or how it reaches the network); export BROWSER instead of putting it in a .env file",
+        "diagnostic": "sampleagent: {{root}}/.env sets "BROWSER", which only the launching environment may set (it decides how this process starts, where its code and instructions load from, or how it reaches the network); export BROWSER instead of putting it in a .env file",
         "exitCode": 1,
         "opened": false,
         "opening": false,

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Command-line entry for dsh.
+ * Command-line entry for sampleagent.
  * @module @deepseek-ai/dsh/bin
  */
 
@@ -19,7 +19,7 @@ export type RunCliOptions = Pick<RunProfileOptions, 'packageManager'> & {
 }
 
 /**
- * Run the public dsh command-line interface.
+ * Run the public sampleagent command-line interface.
  * @param options - Package runtime and Desktop profile access supplied by the installation.
  * @returns a promise that settles when the selected command mode finishes.
  */
@@ -69,7 +69,7 @@ export async function runCli(options: RunCliOptions = {}): Promise<void> {
     }
     default:
       invocation satisfies never
-      throw new Error(`dsh: unhandled invocation mode ${JSON.stringify(invocation)}`)
+      throw new Error(`sampleagent: unhandled invocation mode ${JSON.stringify(invocation)}`)
   }
 }
 

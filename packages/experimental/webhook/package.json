@@ -1,6 +1,6 @@
 {
   "name": "@deepseek-ai/dsh-webhook",
-  "description": "Fire-and-forget webhook rule runtime that creates Workspace-backed DeepSeek Harness Sessions",
+  "description": "Fire-and-forget webhook rule runtime that creates Workspace-backed SampleAgent Sessions",
   "version": "0.2.2-rc.1",
   "publishConfig": {
     "access": "public"

@@ -51,7 +51,7 @@ describe('StageSupervisor', () => {
     const stale: string[] = []
     const supervisor = new StageSupervisor((name) => { stale.push(name) })
     const polite = fakeStage('vite', ['SIGTERM'])
-    const stubborn = fakeStage('dsh web', ['SIGKILL'])
+    const stubborn = fakeStage('sampleagent web', ['SIGKILL'])
     supervisor.add(polite.handle)
     supervisor.add(stubborn.handle)
     await supervisor.stop({ signal: 'SIGTERM', graceMs: 20 })
@@ -63,7 +63,7 @@ describe('StageSupervisor', () => {
   it('waits for stages the terminal already interrupted before signaling survivors', async () => {
     const supervisor = new StageSupervisor(() => { throw new Error('unexpected stale report') })
     const interrupted = fakeStage('tsdown', [])
-    const survivor = fakeStage('dsh web', ['SIGTERM'])
+    const survivor = fakeStage('sampleagent web', ['SIGTERM'])
     supervisor.add(interrupted.handle)
     supervisor.add(survivor.handle)
     const stopping = supervisor.stop({ graceMs: 20 })
@@ -119,7 +119,7 @@ it('samples one local environment at startup without validating watcher outputs'
     writeClientBuildRecord(root, {
       DSH_CLIENT_BUILD_PROFILE: 'official',
       DSH_CLIENT_COMMIT_HASH: 'fffffff',
-      DSH_CLIENT_TITLE: 'DeepSeek Harness',
+      DSH_CLIENT_TITLE: 'SampleAgent',
       DSH_CLIENT_VERSION: '1.2.2',
     })
     await writeFile(join(root, 'packages/client/example/lib/client.js'), 'module.exports = { changed: true }\n')

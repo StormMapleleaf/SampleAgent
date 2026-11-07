@@ -67,7 +67,7 @@ describe('CLI help discovery', () => {
     }, ['web'])
     expect(visited).toEqual(['', 'plugin', 'web', 'web nested', '--profile web'])
     expect(pages.map(page => page.invocations)).toEqual([
-      ['dsh'], ['dsh plugin'], ['dsh web', 'dsh --profile web'],
+      ['dsh'], ['dsh plugin'], ['sampleagent web', 'dsh --profile web'],
       ['dsh web nested', 'dsh --profile web nested'],
     ])
   })
@@ -84,7 +84,7 @@ describe('CLI help discovery', () => {
     }, ['web'])
     expect(visited).toEqual(['', 'plugin', 'web', 'web serve', 'web s', 'web help', '--profile web'])
     expect(pages.map(page => page.invocations)).toEqual([
-      ['dsh'], ['dsh plugin'], ['dsh web', 'dsh web help', 'dsh --profile web', 'dsh --profile web help'],
+      ['dsh'], ['dsh plugin'], ['sampleagent web', 'dsh web help', 'dsh --profile web', 'dsh --profile web help'],
       ['dsh web serve', 'dsh web s', 'dsh --profile web serve', 'dsh --profile web s'],
     ])
   })

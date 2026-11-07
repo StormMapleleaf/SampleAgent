@@ -1,5 +1,5 @@
 /**
- * Shared profile boot for every `dsh` surface: resolve the profile, stack its
+ * Shared profile boot for every `sampleagent` surface: resolve the profile, stack its
  * patch layers (bundle layers in `dsh.profile.bundles` order, the profile's
  * own `cordis.patch.yml`, `--patch` overlays, the telemetry switch), mount the
  * tree over the profile's empty root config, and wire fail-loud plus bounded shutdown.
@@ -38,7 +38,7 @@ import { DSH_LAUNCH_ENVIRONMENT_KEY, type LaunchEnvironmentSnapshot } from '@dee
 import { provideCmdline, type AppReady } from '@deepseek-ai/dsh-cmdline'
 import { createProcessShutdown, type ProcessShutdown } from './process-shutdown.ts'
 
-const NAME = 'dsh'
+const NAME = 'sampleagent'
 
 /** Launcher-owned readiness signal committed only after boot and host setup succeed. */
 function createAppReady(): { service: AppReady; commit(): void } {
@@ -74,11 +74,11 @@ export function homePatchPath(): string {
   return join(resolveDshHome(), PROFILE_PATCH_FILENAME)
 }
 
-/** Absolute path of this dsh installation's package.json (both anchors: src/ and lib/ sit one level under apps/cli). */
+/** Absolute path of this SampleAgent installation's package.json (both anchors: src/ and lib/ sit one level under apps/cli). */
 export const INSTALL_ANCHOR = fileURLToPath(new URL('../package.json', import.meta.url))
 
 /** The empty root entry list every profile tree patches over. */
-const PROFILE_ROOT_CONFIG = `# dsh profile root — an empty entry list. The tree is composed as patches:
+const PROFILE_ROOT_CONFIG = `# sampleagent profile root — an empty entry list. The tree is composed as patches:
 # each bundle in package.json's dsh.profile.bundles, then cordis.patch.yml, then any
 # --patch overlays. Edit cordis.patch.yml, not this file.
 []
@@ -239,7 +239,7 @@ async function composeProfile(
 export interface ResolvedProfileRuntime {
   /** Profile already loaded from the application's own directory. */
   profile: Profile
-  /** Absolute package.json path of the application's dsh installation. */
+  /** Absolute package.json path of the application's SampleAgent installation. */
   installAnchor: string
 }
 
@@ -286,7 +286,7 @@ export async function runProfile(options: RunProfileOptions): Promise<{ ctx: Con
       try { await release() } catch (error) { failures.push(error) }
     }
     if (failures.length === 1) throw failures[0]
-    if (failures.length > 1) throw new AggregateError(failures, 'dsh: profile cleanup failed')
+    if (failures.length > 1) throw new AggregateError(failures, 'sampleagent: profile cleanup failed')
   })()
   try {
     const composed = await composeProfile(
@@ -346,7 +346,7 @@ export async function runProfile(options: RunProfileOptions): Promise<{ ctx: Con
     return { ctx, shutdown }
   } catch (error) {
     try { await dispose() } catch (cleanupError) {
-      throw new AggregateError([error, cleanupError], 'dsh: profile startup and cleanup failed')
+      throw new AggregateError([error, cleanupError], 'sampleagent: profile startup and cleanup failed')
     }
     throw error
   }

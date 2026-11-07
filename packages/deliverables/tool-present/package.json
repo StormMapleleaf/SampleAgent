@@ -1,6 +1,6 @@
 {
   "name": "@deepseek-ai/dsh-tool-present",
-  "description": "Explicit workspace file delivery declarations for the DeepSeek Harness",
+  "description": "Explicit workspace file delivery declarations for the SampleAgent",
   "version": "0.2.2-rc.1",
   "publishConfig": {
     "access": "public"

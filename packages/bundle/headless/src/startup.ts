@@ -108,7 +108,7 @@ export function apply(ctx: Context): void {
       // commander `error: ` prefix.
       const payload = boundJsonLine({ type: 'error', message: message.replace(/^error: /, '') })
       internals.stdout.write(`${payload}\n`)
-      // The JSON contract keeps stderr to `dsh:` diagnostics, so commander's
+      // The JSON contract keeps stderr to `sampleagent:` diagnostics, so commander's
       // own print of this message must not run; throwing the same control-flow
       // error still leaves through the launcher's exit path.
       throw new CommanderError(1, errorOptions?.code ?? 'commander.error', message)

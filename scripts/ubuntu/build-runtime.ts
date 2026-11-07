@@ -79,12 +79,13 @@ export function debVersion(version: string): string {
  * @returns the artifact basename.
  */
 export function archiveName(version: string, target: LinuxTarget): string {
-  return `dsh-${version}-linux-${target.arch}.tar.gz`
+  return `${branding.packageName}-${version}-linux-${target.arch}.tar.gz`
 }
 
 /** Absolute paths of the parts the launcher resolves at run time. */
 export interface InstalledLayout {
   readonly bin: string
+  readonly alias: string
   readonly app: string
   readonly node: string
   readonly pnpm: string
@@ -92,12 +93,13 @@ export interface InstalledLayout {
 
 /**
  * Describe the installed layout a prefix receives.
- * @param prefix - installation prefix such as `/opt/dsh`.
+ * @param prefix - installation prefix such as `/opt/sampleagent`.
  * @returns absolute paths of the parts the launcher resolves at run time.
  */
 export function installLayout(prefix: string): InstalledLayout {
   return {
     bin: join(prefix, 'bin', branding.binaryName),
+    alias: join(prefix, 'bin', branding.aliasName),
     app: join(prefix, 'app'),
     node: join(prefix, 'runtime', 'node', 'bin', 'node'),
     pnpm: join(prefix, 'runtime', 'pnpm', 'bin', 'pnpm.mjs'),
@@ -314,10 +316,12 @@ function verifyNativePayload(appDir: string, target: LinuxTarget): void {
  * @param pnpmVersion - staged pnpm version.
  */
 async function writeMetadata(prefix: string, version: string, target: LinuxTarget, pnpmVersion: string): Promise<void> {
-  const launcher = installLayout(prefix).bin
-  await mkdir(dirname(launcher), { recursive: true })
-  await writeFile(launcher, launcherScript(branding.binaryName))
-  await chmod(launcher, 0o755)
+  const layout = installLayout(prefix)
+  await mkdir(dirname(layout.bin), { recursive: true })
+  await writeFile(layout.bin, launcherScript(branding.binaryName))
+  await chmod(layout.bin, 0o755)
+  await rm(layout.alias, { force: true })
+  await runCommand('ln', ['-s', branding.binaryName, layout.alias], dirname(layout.bin))
   await writeFile(join(prefix, 'VERSION'), `${version}\n`)
   const manifest = {
     schemaVersion: 1,
@@ -342,7 +346,7 @@ async function writeMetadata(prefix: string, version: string, target: LinuxTarge
  */
 async function writeArchive(out: string, prefix: string, version: string, target: LinuxTarget): Promise<string> {
   if (dirname(prefix) !== resolve(out)) {
-    throw new Error(`linux-dist: the tarball member must be ${join(out, 'dsh')}, found ${prefix}`)
+    throw new Error(`linux-dist: the tarball member must be ${join(out, branding.packageName)}, found ${prefix}`)
   }
   const file = join(out, archiveName(version, target))
   await runCommand('tar', ['-czf', file, '--', basename(prefix)], out)
@@ -391,7 +395,7 @@ function smokeRuntime(prefix: string, version: string): Promise<void> {
  */
 async function build(target: LinuxTarget, out: string, options: { cache: string; skipSmoke: boolean }): Promise<void> {
   const version = await repositoryVersion()
-  const prefix = join(out, 'dsh')
+  const prefix = join(out, branding.packageName)
   console.log(`linux-dist: building dsh ${version} for ${target.target} into ${out}`)
   await rm(prefix, { recursive: true, force: true })
   await mkdir(join(prefix, 'app'), { recursive: true })
@@ -444,7 +448,7 @@ async function main(): Promise<void> {
   assertBuildArtifacts(ROOT)
   if (values['dry-run']) {
     console.log(`linux-dist: [dry-run] build ${name} into ${out}`)
-    console.log(`linux-dist: [dry-run] deploy ${CLOSURE_PACKAGE} into ${join(out, 'dsh', 'app')}`)
+    console.log(`linux-dist: [dry-run] deploy ${CLOSURE_PACKAGE} into ${join(out, branding.packageName, 'app')}`)
     console.log(`linux-dist: [dry-run] stage node ${runtimeLock.nodeVersion} and the repository pnpm`)
     return
   }

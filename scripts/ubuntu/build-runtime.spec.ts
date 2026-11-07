@@ -24,18 +24,19 @@ describe('debVersion', () => {
 
 describe('archiveName', () => {
   it('names the tarball after the version and runtime arch', () => {
-    expect(archiveName('0.2.2-rc.1', LINUX_TARGETS['linux-x64']!)).toBe('dsh-0.2.2-rc.1-linux-x64.tar.gz')
-    expect(archiveName('0.2.2', LINUX_TARGETS['linux-arm64']!)).toBe('dsh-0.2.2-linux-arm64.tar.gz')
+    expect(archiveName('0.2.2-rc.1', LINUX_TARGETS['linux-x64']!)).toBe('sampleagent-0.2.2-rc.1-linux-x64.tar.gz')
+    expect(archiveName('0.2.2', LINUX_TARGETS['linux-arm64']!)).toBe('sampleagent-0.2.2-linux-arm64.tar.gz')
   })
 })
 
 describe('installLayout', () => {
-  it('places the launcher, closure, and interpreters under the prefix', () => {
-    const layout = installLayout('/opt/dsh')
-    expect(layout.bin).toBe('/opt/dsh/bin/dsh')
-    expect(layout.app).toBe('/opt/dsh/app')
-    expect(layout.node).toBe('/opt/dsh/runtime/node/bin/node')
-    expect(layout.pnpm).toBe('/opt/dsh/runtime/pnpm/bin/pnpm.mjs')
+  it('places the launcher, its alias, the closure, and the interpreters under the prefix', () => {
+    const layout = installLayout('/opt/sampleagent')
+    expect(layout.bin).toBe('/opt/sampleagent/bin/sampleagent')
+    expect(layout.alias).toBe('/opt/sampleagent/bin/dsh')
+    expect(layout.app).toBe('/opt/sampleagent/app')
+    expect(layout.node).toBe('/opt/sampleagent/runtime/node/bin/node')
+    expect(layout.pnpm).toBe('/opt/sampleagent/runtime/pnpm/bin/pnpm.mjs')
   })
 })
 

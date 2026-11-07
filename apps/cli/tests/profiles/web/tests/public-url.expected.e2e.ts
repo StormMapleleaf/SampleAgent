@@ -113,7 +113,7 @@ async function bootWeb(root: string, flags: string[]): Promise<RunningWeb> {
   }
   lines.on('line', (line) => {
     if (line.startsWith('public-url-listen-port: ')) port = Number(line.slice('public-url-listen-port: '.length))
-    if (line.startsWith('dsh web: http')) startup = new URL(line.slice('dsh web: '.length))
+    if (line.startsWith('sampleagent web: http')) startup = new URL(line.slice('sampleagent web: '.length))
     announced()
   })
   void child.then((result) => {

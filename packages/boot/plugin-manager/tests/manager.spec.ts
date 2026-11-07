@@ -1766,7 +1766,7 @@ it.each(['dsh-x', 'dsh-x@^2.0.0'])('retains the refused package identity for %s'
   ctx.on('plugin-manager/operation', (event) => { facts.push(event) })
   const incompatible = [{ name: 'dsh-x', version: '2.0.0', runtimeVersion: getDshRuntimeVersion(), requirements: { '@deepseek-ai/dsh': '999.0.0' } }]
   const install = vi.spyOn(operations, 'runProfilePnpm').mockResolvedValue({
-    exitCode: 1, output: 'dsh: installation rejected', truncated: false, logPath: 'pnpm.log', kind: 'unknown', incompatible,
+    exitCode: 1, output: 'sampleagent: installation rejected', truncated: false, logPath: 'pnpm.log', kind: 'unknown', incompatible,
   })
   onTestFinished(() => { install.mockRestore() })
   const result = await manager.installBundle(spec)

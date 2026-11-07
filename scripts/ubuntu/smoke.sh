@@ -45,25 +45,26 @@ for release in 22.04 24.04; do
       apt-get update -qq
       apt-get install -y -qq --no-install-recommends curl /dist/*.deb >/dev/null
 
-      reported="$(dsh --version)"
-      [ "$reported" = "$EXPECTED" ] || { echo "smoke: dsh --version reported $reported, expected $EXPECTED" >&2; exit 1; }
-      echo "smoke: dsh $reported"
+      reported="$(sampleagent --version)"
+      [ "$reported" = "$EXPECTED" ] || { echo "smoke: sampleagent --version reported $reported, expected $EXPECTED" >&2; exit 1; }
+      echo "smoke: sampleagent $reported"
 
       command -v bwrap >/dev/null || { echo "smoke: bubblewrap is not installed" >&2; exit 1; }
       echo "smoke: sandbox runner $(command -v bwrap)"
 
-      /opt/dsh/runtime/pnpm/bin/pnpm --version >/dev/null
+      /opt/sampleagent/runtime/pnpm/bin/pnpm --version >/dev/null
       echo "smoke: bundled pnpm ok"
 
-      dsh web --no-open --port 0 > /tmp/web.log 2>&1 &
+      [ "$(dsh --version)" = "$EXPECTED" ] || { echo "smoke: the dsh alias does not run" >&2; exit 1; }
+      sampleagent web --no-open --port 0 > /tmp/web.log 2>&1 &
       server=$!
       trap "kill $server 2>/dev/null || true" EXIT
 
       for _ in $(seq 1 120); do
-        grep -q "dsh web: http" /tmp/web.log && break
+        grep -q "sampleagent web: http" /tmp/web.log && break
         sleep 0.5
       done
-      url="$(sed -n "s/^dsh web: \(http[^ ]*\).*/\1/p" /tmp/web.log | head -1)"
+      url="$(sed -n "s/^sampleagent web: \(http[^ ]*\).*/\1/p" /tmp/web.log | head -1)"
       [ -n "$url" ] || { echo "smoke: no startup URL" >&2; cat /tmp/web.log >&2; exit 1; }
 
       # The token query mints a cookie and redirects to the directory-relative URL.

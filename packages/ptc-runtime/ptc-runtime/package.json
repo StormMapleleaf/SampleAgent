@@ -1,6 +1,6 @@
 {
   "name": "@deepseek-ai/dsh-ptc-runtime",
-  "description": "Abstract PTC execution seam (ctx.ptcRuntime) for the DeepSeek Harness",
+  "description": "Abstract PTC execution seam (ctx.ptcRuntime) for the SampleAgent",
   "version": "0.2.2-rc.1",
   "publishConfig": {
     "access": "public"

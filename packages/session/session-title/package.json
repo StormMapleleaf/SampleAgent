@@ -1,6 +1,6 @@
 {
   "name": "@deepseek-ai/dsh-session-title",
-  "description": "Log-backed session title service and provider registry for the DeepSeek Harness",
+  "description": "Log-backed session title service and provider registry for the SampleAgent",
   "version": "0.2.2-rc.1",
   "publishConfig": {
     "access": "public"

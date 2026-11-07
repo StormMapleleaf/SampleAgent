@@ -1,4 +1,4 @@
-You are an AI agent powered by DeepSeek Harness.
+You are an AI agent powered by SampleAgent.
 
 You are a coding agent powered by the deepseek-v4-flash model.
 
@@ -38,7 +38,7 @@ Prefer showing the primary results within your final response alongside a brief 
 
 <!-- system/message change 1 -->
 
-You are an AI agent powered by DeepSeek Harness.
+You are an AI agent powered by SampleAgent.
 
 You are a coding agent powered by the deepseek-v4-flash model.
 
@@ -91,7 +91,7 @@ Prefer showing the primary results within your final response alongside a brief 
 
 <!-- system/message change 2 -->
 
-You are an AI agent powered by DeepSeek Harness.
+You are an AI agent powered by SampleAgent.
 
 You are a coding agent powered by the deepseek-v4-flash model.
 
@@ -131,7 +131,7 @@ Prefer showing the primary results within your final response alongside a brief 
 
 <!-- system/message change 3 -->
 
-You are an AI agent powered by DeepSeek Harness.
+You are an AI agent powered by SampleAgent.
 
 You are a coding agent powered by the deepseek-v4-flash model.
 
@@ -184,7 +184,7 @@ Prefer showing the primary results within your final response alongside a brief 
 
 <!-- system/message change 4 -->
 
-You are an AI agent powered by DeepSeek Harness.
+You are an AI agent powered by SampleAgent.
 
 You are a coding agent powered by the deepseek-v4-flash model.
 

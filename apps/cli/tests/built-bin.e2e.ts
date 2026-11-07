@@ -387,7 +387,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
       expect(web.stdout).toContain('Usage: dsh --profile web')
       expect(web.stdout).toContain('--port <port>')
       expect(web.stdout).toContain('--public-url <url>')
-      expect(web.stdout).not.toContain('dsh web: http://')
+      expect(web.stdout).not.toContain('sampleagent web: http://')
 
       const wildcardHost = await runBuiltBin(['web', '--host', '0.0.0.0'], {
         DSH_HOME: home,
@@ -395,7 +395,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
       })
       expect(wildcardHost.code).toBe(1)
       expect(wildcardHost.stdout).toBe('')
-      expect(wildcardHost.stderr).not.toContain('dsh web: http://')
+      expect(wildcardHost.stderr).not.toContain('sampleagent web: http://')
 
       const headlessHelp = await runBuiltBin(['headless', '--help'], {
         DSH_HOME: home,
@@ -634,7 +634,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
       })
       expect(result.code, result.stderr).toBe(0)
       expect(result.stdout).toBe('published headless profile reached the mock')
-      expect(result.stderr).toBe('dsh: reasoning:\nInspecting the published entry.')
+      expect(result.stderr).toBe('sampleagent: reasoning:\nInspecting the published entry.')
       expect(server.requests.length).toBeGreaterThan(0)
       expect(server.requests.every(request => request.path === '/v1/messages')).toBe(true)
       expect(JSON.stringify(server.requests.map(request => request.body))).toContain('answer from the published entry')
@@ -804,7 +804,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
         NODE_OPTIONS: `--import=${webReadyExitHook}`,
       })
       expect(result.code, result.stderr).toBe(0)
-      expect(result.stdout).toMatch(/^dsh web: http:\/\/127\.0\.0\.1:\d+\/\?token=[A-Za-z0-9_-]+$/u)
+      expect(result.stdout).toMatch(/^sampleagent web: http:\/\/127\.0\.0\.1:\d+\/\?token=[A-Za-z0-9_-]+$/u)
       expect(result.stderr).toContain('llm-pi-ai')
     } finally {
       rmSync(home, { recursive: true, force: true })

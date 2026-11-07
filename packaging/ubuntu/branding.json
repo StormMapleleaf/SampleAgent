@@ -1,11 +1,12 @@
 {
-  "packageName": "dsh",
-  "binaryName": "dsh",
-  "appName": "DSH",
-  "maintainer": "DSH distribution maintainers <dsh@example.com>",
+  "packageName": "sampleagent",
+  "binaryName": "sampleagent",
+  "aliasName": "dsh",
+  "appName": "SampleAgent",
+  "maintainer": "SampleAgent distribution maintainers <sampleagent@example.com>",
   "homepage": "https://github.com/deepseek-ai/deepseek-harness",
-  "description": "DSH agent runtime and Web UI (community distribution)",
-  "installDir": "/opt/dsh",
+  "description": "SampleAgent runtime and Web UI",
+  "installDir": "/opt/sampleagent",
   "defaultPort": 3080,
   "icon": null
 }

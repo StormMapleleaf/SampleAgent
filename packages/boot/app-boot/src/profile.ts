@@ -166,7 +166,7 @@ export function resolveProfileDir(name: string, home: string = resolveDshHome())
   if (name === '' || name.includes('/') || name.includes('\\') || name === '.' || name === '..'
     // Node reserves this name for dependency lookup.
     || name === 'node_modules') {
-    throw new Error(`dsh: invalid profile name ${JSON.stringify(name)}`)
+    throw new Error(`sampleagent: invalid profile name ${JSON.stringify(name)}`)
   }
   return join(home, PROFILES_DIR, name)
 }

@@ -738,7 +738,7 @@ it.each(['not json', 'null', '{"pid":0,"grouped":false}', '{"pid":12,"grouped":"
     writeFileSync(runRecord(dir), record)
     const outcome = await runProfilePnpm(context, ['add', './extra'], { execution: 'service', outputBytes: 8192 })
     expect(outcome).toMatchObject({ exitCode: 1 })
-    expect(outcome.output).toBe(`dsh: ${runRecord(dir)} does not name a package run; delete it once no earlier package operation is still running in this profile\n`)
+    expect(outcome.output).toBe(`sampleagent: ${runRecord(dir)} does not name a package run; delete it once no earlier package operation is still running in this profile\n`)
     expect(command.run).not.toHaveBeenCalled()
   },
 )

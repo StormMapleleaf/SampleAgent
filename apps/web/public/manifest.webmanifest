@@ -1,6 +1,6 @@
 {
-  "name": "DeepSeek Harness",
-  "short_name": "DSH",
+  "name": "SampleAgent",
+  "short_name": "SampleAgent",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

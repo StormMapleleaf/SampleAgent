@@ -1,6 +1,6 @@
 {
   "name": "@deepseek-ai/dsh-subprocess-local",
-  "description": "Local-subprocess implementation of the DeepSeek Harness subprocess seam",
+  "description": "Local-subprocess implementation of the SampleAgent subprocess seam",
   "version": "0.2.2-rc.1",
   "publishConfig": {
     "access": "public"

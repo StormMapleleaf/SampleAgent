@@ -9,6 +9,6 @@ Section: devel
 Priority: optional
 Homepage: {{HOMEPAGE}}
 Description: {{DESCRIPTION}}
- A self-contained build of the DSH coding agent and its browser UI.
+ A self-contained build of the SampleAgent coding agent and its browser UI.
  It bundles Node.js, pnpm, ripgrep, and the plugin closure, so no system
  Node.js installation and no native build toolchain are required.

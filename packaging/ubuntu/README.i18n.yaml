@@ -3,23 +3,23 @@
 # After editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write packaging/ubuntu/README.md
 /ubuntu-distribution-packaging:
-  en: e8c6de3f7810a580
-  zh: 937d373933c003f7
+  en: 624e63e38f658975
+  zh: 8df0adc92ccfefd1
 /ubuntu-distribution-packaging/installed-layout:
-  en: 766a3d81fdc9d951
-  zh: 08dd78a0e27939fb
+  en: 7a7a533ad8036d8c
+  zh: 184852b53b42eb84
 /ubuntu-distribution-packaging/build:
-  en: 6bdaa1e5f047f3ab
-  zh: 89f3641d2971dd83
+  en: 6abc109c95f9bb38
+  zh: cbe245941a800181
 /ubuntu-distribution-packaging/install-and-run:
-  en: 9488f53b30b5496a
-  zh: abbfc35a6b628f80
+  en: 0b148fc872069aa2
+  zh: 6ef70be1a42e3aec
 /ubuntu-distribution-packaging/remote-access:
   en: 7f8f45aead4b29a4
   zh: c8a71d827bccde83
 /ubuntu-distribution-packaging/uninstall:
-  en: 4bdb9eaab2383644
-  zh: 8e6a1a0ea4cd6067
+  en: aa4d27e14e3fc14a
+  zh: 29bea95067b9330b
 /ubuntu-distribution-packaging/fork-checklist:
-  en: 4c12fe03d05833d0
-  zh: db43c0d4319cd393
+  en: 91e62f5fd68f3259
+  zh: e45d43f69925b8c8

@@ -1,6 +1,6 @@
-DeepSeek Harness
-DeepSeek Harness
-Welcome to DeepSeek Harness
+SampleAgent
+SampleAgent
+Welcome to SampleAgent
 Build potential. Explore intelligence.
 Sign in
 Add API Key

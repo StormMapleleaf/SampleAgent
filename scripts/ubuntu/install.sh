@@ -65,18 +65,18 @@ case "$(uname -m)" in
   *) fail "unsupported architecture $(uname -m)" ;;
 esac
 
-lib_dir="$prefix/lib/dsh"
+lib_dir="$prefix/lib/sampleagent"
 bin_dir="$prefix/bin"
 data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
 config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 if [ "$action" = "uninstall" ]; then
-  rm -f "$bin_dir/dsh"
+  rm -f "$bin_dir/sampleagent" "$bin_dir/dsh"
   rm -rf "$lib_dir"
-  rm -f "$config_home/systemd/user/dsh-web.service"
-  rm -f "$data_home/applications/dsh.desktop"
-  echo "install.sh: removed $lib_dir, $bin_dir/dsh, and the optional unit files"
-  echo "install.sh: $HOME/.dsh (profiles, sessions, settings) was left untouched"
+  rm -f "$config_home/systemd/user/sampleagent-web.service"
+  rm -f "$data_home/applications/sampleagent.desktop"
+  echo "install.sh: removed $lib_dir, $bin_dir/sampleagent, and the optional unit files"
+  echo "install.sh: the SampleAgent home (profiles, sessions, settings) was left untouched"
   exit 0
 fi
 
@@ -122,13 +122,13 @@ fi
 
 [ -n "$version" ] || fail "no version resolved; pass --version"
 
-archive="dsh-${version}-linux-${arch}.tar.gz"
+archive="sampleagent-${version}-linux-${arch}.tar.gz"
 [ -w "$prefix" ] || mkdir -p "$prefix" 2>/dev/null || fail "$prefix is not writable; pass --prefix to a directory you own"
 
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT INT TERM
 
-echo "install.sh: downloading dsh ${version} for linux-${arch}"
+echo "install.sh: downloading sampleagent ${version} for linux-${arch}"
 fetch "$base/$archive" "$tmp_dir/$archive" || fail "cannot download $base/$archive"
 fetch "$base/SHA256SUMS" "$tmp_dir/SHA256SUMS" || fail "cannot download $base/SHA256SUMS"
 
@@ -139,28 +139,29 @@ actual="$(sha256_of "$tmp_dir/$archive")"
 
 mkdir -p "$tmp_dir/unpacked" "$lib_dir"
 tar -xzf "$tmp_dir/$archive" -C "$tmp_dir/unpacked"
-[ -x "$tmp_dir/unpacked/dsh/bin/dsh" ] || fail "archive does not contain dsh/bin/dsh"
+[ -x "$tmp_dir/unpacked/sampleagent/bin/sampleagent" ] || fail "archive does not contain sampleagent/bin/sampleagent"
 
 target="$lib_dir/$version"
 rm -rf "$target"
-mv "$tmp_dir/unpacked/dsh" "$target"
+mv "$tmp_dir/unpacked/sampleagent" "$target"
 ln -sfn "$version" "$lib_dir/current"
 
 mkdir -p "$bin_dir"
-ln -sfn "../lib/dsh/current/bin/dsh" "$bin_dir/dsh"
+ln -sfn "../lib/sampleagent/current/bin/sampleagent" "$bin_dir/sampleagent"
+ln -sfn "sampleagent" "$bin_dir/dsh"
 
 if [ "$install_systemd" = "1" ]; then
   mkdir -p "$config_home/systemd/user"
-  cat > "$config_home/systemd/user/dsh-web.service" <<UNIT
+  cat > "$config_home/systemd/user/sampleagent-web.service" <<UNIT
 [Unit]
-Description=DSH Web UI
+Description=SampleAgent Web UI
 After=network-online.target
 
 [Service]
 Type=simple
 WorkingDirectory=%h
 Environment=DSH_HOME=%h/.dsh
-ExecStart=${bin_dir}/dsh web --no-open --port ${port}
+ExecStart=${bin_dir}/sampleagent web --no-open --port ${port}
 Restart=on-failure
 RestartSec=2
 
@@ -171,24 +172,24 @@ fi
 
 if [ "$install_desktop" = "1" ]; then
   mkdir -p "$data_home/applications"
-  cat > "$data_home/applications/dsh.desktop" <<DESKTOP
+  cat > "$data_home/applications/sampleagent.desktop" <<DESKTOP
 [Desktop Entry]
 Type=Application
-Name=DSH
-Comment=Open the DSH Web UI
-Exec=${bin_dir}/dsh web
-Icon=dsh
+Name=SampleAgent
+Comment=Open the SampleAgent Web UI
+Exec=${bin_dir}/sampleagent web
+Icon=sampleagent
 Terminal=false
 Categories=Development;
 StartupNotify=false
 DESKTOP
 fi
 
-echo "install.sh: installed dsh ${version} to $target"
-echo "install.sh: run '$bin_dir/dsh web' (add $bin_dir to PATH if it is not there yet)"
+echo "install.sh: installed sampleagent ${version} to $target"
+echo "install.sh: run '$bin_dir/sampleagent web' (add $bin_dir to PATH if it is not there yet)"
 if [ "$install_systemd" = "1" ]; then
-  echo "install.sh: optional background service: systemctl --user enable --now dsh-web"
-  echo "install.sh: the startup URL lands in: journalctl --user -u dsh-web"
+  echo "install.sh: optional background service: systemctl --user enable --now sampleagent-web"
+  echo "install.sh: the startup URL lands in: journalctl --user -u sampleagent-web"
 fi
 if ! command -v bwrap >/dev/null 2>&1; then
   echo "install.sh: bubblewrap is absent; command sandboxing falls back to Landlock (Linux 5.13+)" >&2
