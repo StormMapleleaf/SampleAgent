@@ -39,9 +39,11 @@ Both scripts refuse to run on a host that cannot produce the target. Build on `u
 ## Install and run
 
 ```sh
-sudo apt install ./sampleagent_0.2.2~rc.1-1_amd64.deb
+sudo apt install ./sampleagent_0.2.2~rc.1-1_<arch>.deb
 sampleagent web
 ```
+
+`<arch>` is `amd64` on x86-64 hosts and `arm64` on ARM hosts.
 
 `sampleagent web` binds `127.0.0.1:3080` and prints a launch URL carrying a one-time token. The bare address answers 401, so open the printed URL. Over SSH the CLI skips opening a browser; forward the port and open the printed URL through the tunnel.
 

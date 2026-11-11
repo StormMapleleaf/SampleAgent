@@ -39,9 +39,11 @@ pnpm run dist:ubuntu:deb --target linux-x64
 ## 安装与运行
 
 ```sh
-sudo apt install ./sampleagent_0.2.2~rc.1-1_amd64.deb
+sudo apt install ./sampleagent_0.2.2~rc.1-1_<arch>.deb
 sampleagent web
 ```
+
+`<arch>` 在 x86-64 主机上是 `amd64`，在 ARM 主机上是 `arm64`。
 
 `sampleagent web` 绑定 `127.0.0.1:3080`，并打印带一次性 token 的启动 URL。裸地址返回 401，因此要打开打印出的 URL。通过 SSH 运行时 CLI 不打开浏览器；转发端口后经隧道打开打印的 URL。
 

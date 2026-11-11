@@ -23,7 +23,7 @@ SampleAgent 处于 _开发者预览_ 阶段，正在快速迭代。**未来将�
 自包含的 Debian 包携带 Node.js、pnpm、ripgrep 与插件闭包，因此机器无需安装 Node.js：
 
 ```sh
-sudo apt install ./sampleagent_<version>_amd64.deb
+sudo apt install ./sampleagent_<version>_<arch>.deb
 sampleagent web
 ```
 

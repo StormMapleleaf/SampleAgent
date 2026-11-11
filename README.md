@@ -21,7 +21,7 @@ Review the [safety notice](SAFETY.md) before running the project.
 The self-contained Debian package carries Node.js, pnpm, ripgrep, and the plugin closure, so the machine needs no Node.js installation:
 
 ```sh
-sudo apt install ./sampleagent_<version>_amd64.deb
+sudo apt install ./sampleagent_<version>_<arch>.deb
 sampleagent web
 ```
 
