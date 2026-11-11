@@ -6,7 +6,7 @@
 set -eu
 
 DEFAULT_PREFIX="${HOME}/.local"
-DEFAULT_REPO="your-org/deepseek-harness"
+DEFAULT_REPO="StormMapleleaf/SampleAgent"
 DEFAULT_PORT="3080"
 
 prefix="$DEFAULT_PREFIX"
@@ -25,7 +25,7 @@ Usage: install.sh [options]
   --version <v>       Release version to install (default: the release marked latest)
   --prefix <dir>      Installation prefix (default: ~/.local)
   --base-url <url>    Directory holding the release artifacts, overriding the GitHub release URL
-  --repo <owner/name> GitHub repository publishing the release (default: your-org/deepseek-harness)
+  --repo <owner/name> GitHub repository publishing the release (default: StormMapleleaf/SampleAgent)
   --port <n>          Port the optional systemd user unit serves (default: 3080)
   --no-systemd        Skip the systemd user unit
   --no-desktop        Skip the desktop entry
